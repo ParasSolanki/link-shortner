@@ -1,13 +1,15 @@
 import { z } from "zod";
 import { db } from "../db/db";
-import { userPasswordTable, userTable } from "../db/schema";
-import { eq } from "drizzle-orm";
+import { userKeyTable, userPasswordTable, userTable } from "../db/schema";
+import { and, eq } from "drizzle-orm";
 import { Argon2id } from "oslo/password";
 
 const signinSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1).max(256),
 });
+
+const EMAIL_KEY = "email";
 
 export default eventHandler(async (event) => {
   const formData = await readFormData(event);
@@ -25,6 +27,47 @@ export default eventHandler(async (event) => {
   }
 
   const { email, password } = result.data;
+
+  {
+    const [user] = await db
+      .select({
+        id: userTable.id,
+      })
+      .from(userTable)
+      .where(eq(userTable.email, email))
+      .limit(1);
+
+    // no user found
+    if (!user) {
+      throw createError({
+        statusCode: 400,
+        message: "Incorrect email or password",
+      });
+    }
+  }
+
+  {
+    const [userKey] = await db
+      .select({
+        id: userTable.id,
+      })
+      .from(userKeyTable)
+      .where(
+        and(
+          eq(userKeyTable.providerId, EMAIL_KEY),
+          eq(userKeyTable.providerUserId, email)
+        )
+      )
+      .limit(1);
+
+    // user with email key account not exists
+    if (!userKey) {
+      throw createError({
+        statusCode: 400,
+        message: "Incorrect email or password",
+      });
+    }
+  }
 
   const [user] = await db
     .select({
