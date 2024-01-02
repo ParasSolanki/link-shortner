@@ -1,0 +1,45 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "migrate": "tsx ./migrate.ts"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@nuxtjs/fontaine": "^0.4.1",
+    "@nuxtjs/tailwindcss": "^6.10.1",
+    "@types/better-sqlite3": "^7.6.8",
+    "@vueuse/core": "^10.7.1",
+    "@vueuse/nuxt": "^10.7.1",
+    "dotenv": "^16.3.1",
+    "drizzle-kit": "^0.20.9",
+    "nuxt": "^3.9.0",
+    "shadcn-nuxt": "^0.1.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "vue": "^3.3.13",
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@lucia-auth/adapter-drizzle": "1.0.0-beta.0",
+    "@vee-validate/zod": "^4.12.3",
+    "better-sqlite3": "^9.2.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "drizzle-orm": "^0.29.2",
+    "lucia": "3.0.0-beta.13",
+    "lucide-vue-next": "^0.302.0",
+    "oslo": "^0.26.2",
+    "radix-vue": "^1.2.5",
+    "tailwind-merge": "^2.2.0",
+    "tailwindcss-animate": "^1.0.7",
+    "vee-validate": "^4.12.3",
+    "zod": "^3.22.4"
+  }
+}
