@@ -8,6 +8,13 @@
       "when": 1704123855911,
       "tag": "0000_complex_killmonger",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1704467143678,
+      "tag": "0001_medical_red_hulk",
+      "breakpoints": true
     }
   ]
 }

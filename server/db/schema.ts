@@ -1,4 +1,6 @@
+import { sql } from "drizzle-orm";
 import { sqliteTable, text, integer, unique } from "drizzle-orm/sqlite-core";
+import { generateId } from "lucia";
 
 export const userTable = sqliteTable("user", {
   id: text("id").notNull().primaryKey(),
@@ -36,3 +38,17 @@ export const userKeyTable = sqliteTable(
     uniqueUserIdAndProviderId: unique().on(t.userId, t.providerId),
   })
 );
+
+export const linksTable = sqliteTable("links", {
+  id: text("id")
+    .notNull()
+    .$defaultFn(() => generateId(20))
+    .primaryKey(),
+  slug: text("slug").notNull().unique(),
+  href: text("href").notNull(),
+  visits: integer("visits").default(0).notNull(),
+  userId: text("user_id").references(() => userTable.id),
+  createAt: text("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});

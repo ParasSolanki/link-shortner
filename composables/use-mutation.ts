@@ -8,17 +8,19 @@ export function useMutation(
   const isPending = ref(false);
   const isError = ref(false);
   const error = ref(undefined);
+  const data = ref(undefined);
 
   async function mutateAsync(variables: any) {
     error.value = undefined;
     isError.value = false;
     isPending.value = true;
+    data.value = undefined;
 
     try {
-      const data = await handler(variables);
-
-      callbacks?.onSuccess?.(data);
-      return data;
+      const response = await handler(variables);
+      data.value = response;
+      callbacks?.onSuccess?.(response);
+      return response;
     } catch (e) {
       error.value = e;
       isError.value = true;
@@ -32,9 +34,11 @@ export function useMutation(
     error.value = undefined;
     isError.value = false;
     isPending.value = true;
+    data.value = undefined;
 
     handler(variables)
       .then((d) => {
+        data.value = d;
         callbacks?.onSuccess?.(d);
       })
       .catch((e) => {
@@ -53,5 +57,6 @@ export function useMutation(
     isPending,
     isError,
     error,
+    data,
   };
 }
