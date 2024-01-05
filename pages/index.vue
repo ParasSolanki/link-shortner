@@ -18,7 +18,7 @@ useHead({
   title: "Link Shortner",
 });
 
-const config = useRuntimeConfig();
+const BASE_URL = "http://localhost:3000";
 
 const formSchema = toTypedSchema(
   z.object({
@@ -114,18 +114,31 @@ function handleCopyLink(link: string) {
             <Input
               readonly
               class="pr-12"
-              :default-value="`${config.app.baseURL}/${data.link.slug}`"
+              :default-value="`${BASE_URL}/${data.link.slug}`"
             />
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              class="absolute top-1/2 right-0.5 -translate-y-1/2"
-              @click="handleCopyLink(`${config.app.baseURL}/${data.link.slug}`)"
-            >
-              <Clipboard v-if="!copied" class="h-4 w-4" />
-              <ClipboardCheck v-else class="h-4 w-4 text-green-500" />
-            </Button>
+
+            <div class="absolute top-1/2 right-0.5 -translate-y-1/2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger as-child>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      @click="handleCopyLink(`${BASE_URL}/${data.link.slug}`)"
+                    >
+                      <Clipboard v-if="!copied" class="h-4 w-4" />
+                      <ClipboardCheck v-else class="h-4 w-4 text-green-500" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>
+                      {{ copied ? "Copied" : "Copy" }}
+                    </span>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </div>
           <div class="flex space-x-2">
             <span>Long Link:</span>
