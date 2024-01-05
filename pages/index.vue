@@ -4,7 +4,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
 import { useMutation } from "~/composables/use-mutation";
 import { toast } from "vue-sonner";
-import { Loader2 } from "lucide-vue-next";
+import { Loader2, Clipboard, ClipboardCheck } from "lucide-vue-next";
 
 definePageMeta({
   middleware: ["protected"],
@@ -18,6 +18,8 @@ useHead({
   title: "Link Shortner",
 });
 
+const config = useRuntimeConfig();
+
 const formSchema = toTypedSchema(
   z.object({
     href: z.string().url(),
@@ -28,7 +30,7 @@ const { handleSubmit, resetForm } = useForm({
   validationSchema: formSchema,
 });
 
-const { mutate, isPending } = useMutation(
+const { mutate, isPending, data } = useMutation(
   (data) =>
     $fetch("/api/link", {
       method: "POST",
@@ -48,6 +50,18 @@ const { mutate, isPending } = useMutation(
 const onSubmit = handleSubmit((values) => {
   mutate(values);
 });
+
+const copied = ref(false);
+
+function handleCopyLink(link: string) {
+  window.navigator.clipboard.writeText(link);
+  copied.value = true;
+  toast.success("Link copied");
+
+  setTimeout(() => {
+    copied.value = false;
+  }, 1000);
+}
 </script>
 
 <template>
@@ -86,6 +100,44 @@ const onSubmit = handleSubmit((values) => {
             </FormField>
           </fieldset>
         </form>
+
+        <div v-if="data" class="mt-10 space-y-4">
+          <div>
+            <h3 class="text-2xl font-bold">Your shortened Link</h3>
+            <p class="text-muted-foreground text-sm">
+              Copy the short link and share it in messages, texts, posts,
+              websites and other locations.
+            </p>
+          </div>
+
+          <div class="relative">
+            <Input
+              readonly
+              class="pr-12"
+              :default-value="`${config.app.baseURL}/${data.link.slug}`"
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              class="absolute top-1/2 right-0.5 -translate-y-1/2"
+              @click="handleCopyLink(`${config.app.baseURL}/${data.link.slug}`)"
+            >
+              <Clipboard v-if="!copied" class="h-4 w-4" />
+              <ClipboardCheck v-else class="h-4 w-4 text-green-500" />
+            </Button>
+          </div>
+          <div class="flex space-x-2">
+            <span>Long Link:</span>
+            <NuxtLink
+              target="_blank"
+              :to="data.link.href"
+              rel="noreferrer noopener"
+              class="underline underline-offset-4 font-bold text-primary hover:opacity-80"
+              >{{ data.link.href }}</NuxtLink
+            >
+          </div>
+        </div>
       </CardContent>
     </Card>
   </div>
