@@ -2,6 +2,8 @@
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
+import { toast } from "vue-sonner";
+import { Loader2 } from "lucide-vue-next";
 
 const user = useUser();
 if (user.value) {
@@ -23,20 +25,28 @@ const { handleSubmit } = useForm({
   validationSchema: formSchema,
 });
 
+const { mutate, isPending } = useMutation(
+  (data) =>
+    $fetch("/api/signup", {
+      method: "POST",
+      body: data,
+    }),
+  {
+    onSuccess: () => {
+      navigateTo("/");
+    },
+    onError: (error) => {
+      toast.error(error?.data?.message ?? "Something went wrong");
+    },
+  }
+);
+
 const onSubmit = handleSubmit(async (values) => {
   const formData = new FormData();
 
   formData.append("email", values.email);
   formData.append("password", values.password);
-
-  const result = await useFetch("/api/signup", {
-    method: "POST",
-    body: formData,
-  });
-
-  if (!result.error.value) {
-    await navigateTo("/");
-  }
+  mutate(readMultipartFormData);
 });
 </script>
 
@@ -65,7 +75,7 @@ const onSubmit = handleSubmit(async (values) => {
           </p>
 
           <form @submit="onSubmit">
-            <fieldset class="space-y-4">
+            <fieldset class="space-y-4" :disabled="isPending">
               <div>
                 <FormField v-slot="{ componentField }" name="email">
                   <FormItem>
@@ -89,14 +99,16 @@ const onSubmit = handleSubmit(async (values) => {
                       <PasswordInput
                         placeholder="Enter password"
                         v-bind="componentField"
-                      ></PasswordInput>
+                      />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 </FormField>
               </div>
-              <Button type="submit">Signup</Button>
+              <Button type="submit" :disabled="isPending">
+                <Loader2 v-if="isPending" class="mr-1 h-4 w-4 animate-spin" />
+                Sign Up
+              </Button>
             </fieldset>
           </form>
 
