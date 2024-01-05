@@ -32,7 +32,7 @@ pnpm run preview
 
 ## Feature Task List
 
-- [ ] User can create a short link.
+- [x] User can create a short link.
 - [ ] Redirect short link to link API.
 - [ ] Show logged in user avatar in header navbar.
 - [ ] Profile page.
