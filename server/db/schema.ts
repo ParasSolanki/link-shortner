@@ -39,7 +39,7 @@ export const userKeyTable = sqliteTable(
   })
 );
 
-export const links = sqliteTable("links", {
+export const linksTable = sqliteTable("links", {
   id: text("id")
     .notNull()
     .$defaultFn(() => generateId(20))
