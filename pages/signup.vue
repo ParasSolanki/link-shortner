@@ -34,6 +34,7 @@ const { mutate, isPending } = useMutation(
   {
     onSuccess: () => {
       navigateTo("/");
+      toast.success("Account created Successfully");
     },
     onError: (error) => {
       toast.error(error?.data?.message ?? "Something went wrong");
@@ -46,7 +47,7 @@ const onSubmit = handleSubmit(async (values) => {
 
   formData.append("email", values.email);
   formData.append("password", values.password);
-  mutate(readMultipartFormData);
+  mutate(formData);
 });
 </script>
 
