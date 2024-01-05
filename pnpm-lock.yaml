@@ -44,6 +44,9 @@ dependencies:
   vee-validate:
     specifier: ^4.12.3
     version: 4.12.3(vue@3.3.13)
+  vue-sonner:
+    specifier: ^1.0.2
+    version: 1.0.2
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -10891,6 +10894,10 @@ packages:
       '@vue/devtools-api': 6.5.1
       vue: 3.3.13(typescript@5.3.3)
     dev: true
+
+  /vue-sonner@1.0.2:
+    resolution: {integrity: sha512-BXIyb9lGSMUjTpOukISp7oV9nrczgbfYz+TnDeoap3io3ayGXiWv+/3eQ9UKnmofwUlC4nh/H5jzBOO89lRItQ==}
+    dev: false
 
   /vue@3.3.13(typescript@5.3.3):
     resolution: {integrity: sha512-LDnUpQvDgsfc0u/YgtAgTMXJlJQqjkxW1PVcOnJA5cshPleULDjHi7U45pl2VJYazSSvLH8UKcid/kzH8I0a0Q==}

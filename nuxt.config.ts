@@ -21,4 +21,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     databaseUrl: "",
   },
+  build: {
+    transpile: ["vue-sonner"],
+  },
 });

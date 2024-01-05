@@ -2,6 +2,9 @@
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
+import { useMutation } from "~/composables/use-mutation";
+import { toast } from "vue-sonner";
+import { Loader2 } from "lucide-vue-next";
 
 const user = useUser();
 
@@ -24,20 +27,28 @@ const { handleSubmit } = useForm({
   validationSchema: formSchema,
 });
 
+const { mutate, isPending } = useMutation(
+  (data) =>
+    $fetch("/api/signin", {
+      method: "POST",
+      body: data,
+    }),
+  {
+    onSuccess: () => {
+      navigateTo("/");
+    },
+    onError: (error) => {
+      toast.error(error?.data?.message ?? "Something went wrong");
+    },
+  }
+);
+
 const onSubmit = handleSubmit(async (values) => {
   const formData = new FormData();
 
   formData.append("email", values.email);
   formData.append("password", values.password);
-
-  const result = await useFetch("/api/signin", {
-    method: "POST",
-    body: formData,
-  });
-
-  if (!result.error.value) {
-    await navigateTo("/");
-  }
+  mutate(formData);
 });
 </script>
 
@@ -63,7 +74,7 @@ const onSubmit = handleSubmit(async (values) => {
           <h3 class="text-4xl font-black text-foreground">Sign In</h3>
 
           <form @submit="onSubmit">
-            <fieldset class="space-y-4">
+            <fieldset :disabled="isPending" class="space-y-4">
               <div>
                 <FormField v-slot="{ componentField }" name="email">
                   <FormItem>
@@ -87,14 +98,16 @@ const onSubmit = handleSubmit(async (values) => {
                       <PasswordInput
                         placeholder="Enter password"
                         v-bind="componentField"
-                      ></PasswordInput>
+                      />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 </FormField>
               </div>
-              <Button type="submit">Signin</Button>
+              <Button type="submit" :disabled="isPending">
+                <Loader2 v-if="isPending" class="mr-1 h-4 w-4 animate-spin" />
+                Sign In
+              </Button>
             </fieldset>
           </form>
 
@@ -112,3 +125,4 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
   </main>
 </template>
+~/composables/use-mutation

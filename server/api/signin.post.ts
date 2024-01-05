@@ -49,7 +49,7 @@ export default eventHandler(async (event) => {
   {
     const [userKey] = await db
       .select({
-        id: userTable.id,
+        userId: userKeyTable.userId,
       })
       .from(userKeyTable)
       .where(
