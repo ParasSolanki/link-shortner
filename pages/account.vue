@@ -60,7 +60,7 @@ const links = [
           </ul>
         </nav>
       </aside>
-      <div className="flex-1 lg:max-w-2xl">
+      <div class="flex-1 lg:max-w-2xl">
         <NuxtPage />
       </div>
     </div>

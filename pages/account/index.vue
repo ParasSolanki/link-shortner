@@ -1,8 +1,50 @@
 <script setup lang="ts">
-const route = useRoute();
+import { toTypedSchema } from "@vee-validate/zod";
+import { Loader2 } from "lucide-vue-next";
+import { useForm } from "vee-validate";
+import { toast } from "vue-sonner";
+import { z } from "zod";
 
 useHead({
   title: "Account | Link Shortner",
+});
+
+const user = useAuthenticatedUser();
+
+const formSchema = toTypedSchema(
+  z.object({
+    displayName: z
+      .string({ required_error: "Display name is required" })
+      .min(1)
+      .max(32),
+  })
+);
+
+const { handleSubmit } = useForm({
+  validationSchema: formSchema,
+  initialValues: {
+    displayName: user.value.displayName,
+  },
+});
+
+const { mutate, isPending } = useMutation(
+  (data) =>
+    $fetch("/api/me/display-name", {
+      method: "PATCH",
+      body: data,
+    }),
+  {
+    onSuccess: () => {
+      toast.success("Display name updated");
+    },
+    onError: (error) => {
+      toast.error(error?.data?.message ?? "Something went wrong");
+    },
+  }
+);
+
+const onSubmit = handleSubmit(async (values) => {
+  mutate({ displayName: values.displayName });
 });
 </script>
 
@@ -13,5 +55,40 @@ useHead({
       <p class="text-muted-foreground">Update your account settings.</p>
     </div>
     <Separator />
+
+    <form @submit="onSubmit">
+      <fieldset :disabled="isPending">
+        <Card>
+          <CardHeader>
+            <CardTitle>Display Name</CardTitle>
+            <CardDescription>This is your display name.</CardDescription>
+          </CardHeader>
+          <CardContent class="w-96">
+            <FormField v-slot="{ componentField }" name="displayName">
+              <FormItem>
+                <FormLabel>Display Name</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="John David"
+                    v-bind="componentField"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            </FormField>
+          </CardContent>
+          <CardFooter class="flex items-center justify-between border-t py-4">
+            <p class="text-base text-muted-foreground">
+              Please use 32 characters at maximum.
+            </p>
+            <Button type="submit" :disabled="isPending">
+              <Loader2 v-if="isPending" class="mr-1 h-4 w-4 animate-spin" />
+              Save
+            </Button>
+          </CardFooter>
+        </Card>
+      </fieldset>
+    </form>
   </div>
 </template>
