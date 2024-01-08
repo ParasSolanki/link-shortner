@@ -35,7 +35,7 @@ pnpm run preview
 - [x] User can create a short link.
 - [x] Redirect short link to link API.
 - [x] Show logged in user avatar in header navbar.
-- [ ] Profile page.
+- [x] Profile page.
 - [ ] Update profile functionality.
 - [ ] Change password functionality.
 - [ ] Registered user show all of their short links.
