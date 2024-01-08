@@ -20,9 +20,9 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const session = await lucia.validateSession(sessionId);
+  const { session, user } = await lucia.validateSession(sessionId);
 
-  if (!session.user) {
+  if (!session) {
     throw createError({
       statusCode: 401,
       message: "Not Authorized",
@@ -44,12 +44,26 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    await db
+    const [updatedUser] = await db
       .update(userTable)
       .set({
         displayName: result.data.displayName,
       })
-      .where(eq(userTable.id, session.user.id));
+      .where(eq(userTable.id, user.id))
+      .returning();
+
+    await lucia.invalidateSession(session.id);
+
+    const newSession = await lucia.createSession(updatedUser.id, {
+      email: updatedUser.email,
+      displayName: updatedUser.displayName,
+    });
+
+    appendHeader(
+      event,
+      "Set-Cookie",
+      lucia.createSessionCookie(newSession.id).serialize()
+    );
 
     return { ok: true };
   } catch (e) {

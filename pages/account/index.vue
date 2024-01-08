@@ -9,15 +9,18 @@ useHead({
   title: "Account | Link Shortner",
 });
 
+const router = useRouter();
 const user = useAuthenticatedUser();
 
 const formSchema = toTypedSchema(
-  z.object({
-    displayName: z
-      .string({ required_error: "Display name is required" })
-      .min(1)
-      .max(32),
-  })
+  z
+    .object({
+      displayName: z
+        .string({ required_error: "Display name is required" })
+        .min(1)
+        .max(32),
+    })
+    .nullable()
 );
 
 const { handleSubmit } = useForm({
@@ -36,6 +39,7 @@ const { mutate, isPending } = useMutation(
   {
     onSuccess: () => {
       toast.success("Display name updated");
+      router.go(0);
     },
     onError: (error) => {
       toast.error(error?.data?.message ?? "Something went wrong");

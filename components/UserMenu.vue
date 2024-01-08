@@ -5,9 +5,9 @@ const user = useUser();
 
 const userInitials = computed(() => {
   if (!user.value) return;
+  if (!user.value.displayName) return;
   // TODO: show name first charcters
-  //   const splited = user.value.displayName.split(' ');
-  const splited = "";
+  const splited = user.value.displayName.split(" ");
 
   return `${splited[0] ? splited[0].charAt(0).toUpperCase() : ""}${
     splited[1] ? splited[1].charAt(0).toUpperCase() : ""
@@ -44,7 +44,7 @@ const { mutate } = useMutation(
       <DropdownMenuLabel class="font-normal">
         <div class="flex flex-col space-y-1">
           <p class="text-sm font-medium leading-none">
-            {{ user?.name ?? "" }}
+            {{ user?.displayName ?? "" }}
           </p>
           <p class="text-xs leading-none text-muted-foreground">
             {{ user?.email ?? "" }}
