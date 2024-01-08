@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UserIcon, LogOut, LockIcon } from "lucide-vue-next";
+import { UserIcon, LogOut, LockIcon, SettingsIcon } from "lucide-vue-next";
 import { toast } from "vue-sonner";
 const user = useUser();
 
@@ -54,13 +54,13 @@ const { mutate } = useMutation(
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
         <DropdownMenuItem asChild>
-          <NuxtLink to="/profile" class="hover:cursor-pointer">
-            <UserIcon class="mr-2 h-4 w-4" />
-            Profile
+          <NuxtLink to="/account" class="hover:cursor-pointer">
+            <SettingsIcon class="mr-2 h-4 w-4" />
+            Account
           </NuxtLink>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <NuxtLink to="/change-password" class="hover:cursor-pointer">
+          <NuxtLink to="/account/security" class="hover:cursor-pointer">
             <LockIcon class="mr-2 h-4 w-4" />
             Change Password
           </NuxtLink>
