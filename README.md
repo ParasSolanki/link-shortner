@@ -33,7 +33,7 @@ pnpm run preview
 ## Feature Task List
 
 - [x] User can create a short link.
-- [ ] Redirect short link to link API.
+- [x] Redirect short link to link API.
 - [ ] Show logged in user avatar in header navbar.
 - [ ] Profile page.
 - [ ] Update profile functionality.
@@ -43,3 +43,4 @@ pnpm run preview
 - [ ] Registered user allow short link delete.
 - [ ] Registered user show short link metrics.
 - [ ] Registered user short link metrics chart today, yesterday, week, month, year and overall.
+- [ ] Nuxt CSRF.
