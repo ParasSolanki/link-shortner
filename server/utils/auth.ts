@@ -21,13 +21,13 @@ export const lucia = new Lucia(adapter, {
     return {
       // attributes has the type of DatabaseSessionAttributes
       email: attributes.email,
+      displayName: attributes.displayName,
     };
   },
   getUserAttributes: (attributes) => {
     return {
       // attributes has the type of DatabaseUserAttributes
       email: attributes.email,
-      displayName: attributes.displayName,
     };
   },
 });
@@ -42,5 +42,6 @@ declare module "lucia" {
   }
   interface DatabaseSessionAttributes {
     email: string;
+    displayName: string | null;
   }
 }

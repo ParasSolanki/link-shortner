@@ -73,6 +73,7 @@ export default eventHandler(async (event) => {
     .select({
       id: userTable.id,
       email: userTable.email,
+      displayName: userTable.displayName,
       hashedPassword: userPasswordTable.hashedPassword,
     })
     .from(userTable)
@@ -109,7 +110,8 @@ export default eventHandler(async (event) => {
   }
 
   const session = await lucia.createSession(user.id, {
-    email,
+    email: user.email,
+    displayName: user.displayName,
   });
 
   appendHeader(
