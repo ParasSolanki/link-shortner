@@ -7,11 +7,11 @@ useHead({
 </script>
 
 <template>
-  <div className="space-y-6">
+  <div class="space-y-6">
     <div>
-      <h3 className="text-primary text-3xl font-semibold">General</h3>
-      <p class="text-muted-foreground">Your account settings.</p>
+      <h3 class="text-primary text-3xl font-semibold">General</h3>
+      <p class="text-muted-foreground">Update your account settings.</p>
     </div>
-    <!-- <Separator /> -->
+    <Separator />
   </div>
 </template>

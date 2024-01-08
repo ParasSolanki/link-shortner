@@ -25,8 +25,11 @@ const links = [
 </script>
 
 <template>
-  <div class="container mx-auto border-b border-b-border px-4 py-8">
-    <h2 class="text-primary font-bold text-4xl">Account Settings</h2>
+  <div class="container mx-auto border-b border-b-border px-4 py-6">
+    <h2 class="text-primary font-bold text-3xl">Account Settings</h2>
+    <p class="text-base text-muted-foreground">
+      Manage your account settings and set e-mail preferences.
+    </p>
   </div>
   <div class="container mx-auto my-10 px-10">
     <div class="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
@@ -42,7 +45,7 @@ const links = [
                     'w-full justify-start text-base',
                     route.path === link.href
                       ? 'bg-muted text-primary hover:bg-muted'
-                      : 'hover:bg-transparent hover:underline'
+                      : 'hover:bg-transparent hover:underline hover:underline-offset-4 '
                   )
                 "
               >
