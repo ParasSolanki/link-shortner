@@ -5,6 +5,7 @@ import { generateId } from "lucia";
 export const userTable = sqliteTable("user", {
   id: text("id").notNull().primaryKey(),
   email: text("email").notNull().unique(),
+  displayName: text("display_name"),
 });
 
 export const userSessionTable = sqliteTable("user_session", {

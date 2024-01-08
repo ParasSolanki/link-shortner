@@ -48,8 +48,8 @@ export default eventHandler(async (event) => {
     const [user] = await tx
       .insert(userTable)
       .values({
-        email,
         id: generateId(20),
+        email,
       })
       .returning();
 
@@ -72,7 +72,8 @@ export default eventHandler(async (event) => {
   });
 
   const session = await lucia.createSession(user.id, {
-    email,
+    email: user.email,
+    displayName: user.displayName,
   });
 
   appendHeader(

@@ -15,6 +15,13 @@
       "when": 1704467143678,
       "tag": "0001_medical_red_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1704727168337,
+      "tag": "0002_unique_puppet_master",
+      "breakpoints": true
     }
   ]
 }

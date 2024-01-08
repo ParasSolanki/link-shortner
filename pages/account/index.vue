@@ -1,66 +1,98 @@
 <script setup lang="ts">
-import { LockIcon, SettingsIcon } from "lucide-vue-next";
-import { buttonVariants } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
-
-const route = useRoute();
-
-definePageMeta({
-  layout: "app",
-  middleware: ["protected"],
-});
+import { toTypedSchema } from "@vee-validate/zod";
+import { Loader2 } from "lucide-vue-next";
+import { useForm } from "vee-validate";
+import { toast } from "vue-sonner";
+import { z } from "zod";
 
 useHead({
   title: "Account | Link Shortner",
 });
 
-const links = [
-  {
-    name: "General",
-    href: "/account",
-    icon: SettingsIcon,
+const router = useRouter();
+const user = useAuthenticatedUser();
+
+const formSchema = toTypedSchema(
+  z
+    .object({
+      displayName: z
+        .string({ required_error: "Display name is required" })
+        .min(1)
+        .max(32),
+    })
+    .nullable()
+);
+
+const { handleSubmit } = useForm({
+  validationSchema: formSchema,
+  initialValues: {
+    displayName: user.value.displayName,
   },
+});
+
+const { mutate, isPending } = useMutation(
+  (data) =>
+    $fetch("/api/me/display-name", {
+      method: "PATCH",
+      body: data,
+    }),
   {
-    name: "Security",
-    href: "/account/security",
-    icon: LockIcon,
-  },
-];
+    onSuccess: () => {
+      toast.success("Display name updated");
+      router.go(0);
+    },
+    onError: (error) => {
+      toast.error(error?.data?.message ?? "Something went wrong");
+    },
+  }
+);
+
+const onSubmit = handleSubmit(async (values) => {
+  mutate({ displayName: values.displayName });
+});
 </script>
 
 <template>
-  <div class="container mx-auto border-b border-b-border px-4 py-8">
-    <h2 class="text-primary font-bold text-4xl">Account Settings</h2>
-  </div>
-  <div class="container mx-auto mt-10 px-10">
-    <div class="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-      <aside class="-mx-4 lg:w-1/5">
-        <nav class="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1">
-          <ul>
-            <li v-for="link in links" :key="link.href">
-              <NuxtLink
-                :to="link.href"
-                :class="
-                  cn(
-                    buttonVariants({ variant: 'ghost' }),
-                    'w-full justify-start text-base',
-                    route.path === link.href
-                      ? 'bg-muted text-primary hover:bg-muted'
-                      : 'hover:bg-transparent hover:underline'
-                  )
-                "
-              >
-                <component
-                  :is="link.icon"
-                  class="mr-2 w-5 h-5"
-                  aria-hidden="true"
-                />
-                {{ link.name }}
-              </NuxtLink>
-            </li>
-          </ul>
-        </nav>
-      </aside>
+  <div class="space-y-6">
+    <div>
+      <h3 class="text-primary text-3xl font-semibold">General</h3>
+      <p class="text-muted-foreground">Update your account settings.</p>
     </div>
+    <Separator />
+
+    <form @submit="onSubmit">
+      <fieldset :disabled="isPending">
+        <Card>
+          <CardHeader>
+            <CardTitle>Display Name</CardTitle>
+            <CardDescription>This is your display name.</CardDescription>
+          </CardHeader>
+          <CardContent class="w-96">
+            <FormField v-slot="{ componentField }" name="displayName">
+              <FormItem>
+                <FormLabel>Display Name</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="John David"
+                    v-bind="componentField"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            </FormField>
+          </CardContent>
+          <CardFooter class="flex items-center justify-between border-t py-4">
+            <p class="text-base text-muted-foreground">
+              Please use 32 characters at maximum.
+            </p>
+            <Button type="submit" :disabled="isPending">
+              <Loader2 v-if="isPending" class="mr-1 h-4 w-4 animate-spin" />
+              Save
+            </Button>
+          </CardFooter>
+        </Card>
+      </fieldset>
+    </form>
   </div>
 </template>
