@@ -4,7 +4,10 @@ import { userTable } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
 const displayNameSchema = z.object({
-  displayName: z.string().min(1).max(32),
+  displayName: z
+    .string({ required_error: "Display name is required" })
+    .min(1)
+    .max(32),
 });
 
 export default defineEventHandler(async (event) => {
