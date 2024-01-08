@@ -3,7 +3,7 @@
 <template>
   <div class="flex flex-col">
     <Header />
-    <main class="py-8">
+    <main>
       <slot />
     </main>
   </div>

@@ -7,10 +7,6 @@ import { toast } from "vue-sonner";
 import { Loader2, Clipboard, ClipboardCheck } from "lucide-vue-next";
 
 definePageMeta({
-  middleware: ["protected"],
-});
-
-definePageMeta({
   layout: "app",
 });
 
@@ -65,7 +61,7 @@ function handleCopyLink(link: string) {
 </script>
 
 <template>
-  <div class="max-w-3xl mx-auto px-4 py-8">
+  <div class="max-w-3xl mx-auto px-4 py-20">
     <Card>
       <CardHeader>
         <CardTitle class="text-3xl md:text-4xl lg:text-5xl font-black"
