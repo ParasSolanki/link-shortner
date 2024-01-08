@@ -11,15 +11,14 @@ const user = useUser();
     <div class="container mx-auto px-4 flex items-center h-20 justify-between">
       <NuxtLink class="text-2xl md:text-3xl font-black">Link Shortner</NuxtLink>
 
-      <div v-if="!user" class="flex space-x-2 items-center">
+      <UserMenu v-if="user" />
+
+      <div v-else class="flex space-x-2 items-center">
         <NuxtLink :class="buttonVariants({ variant: 'outline' })" to="/signin"
           >Signin</NuxtLink
         >
         <NuxtLink :class="buttonVariants()" to="/signup">SignUp</NuxtLink>
       </div>
-      <form v-else action="/api/logout" method="post">
-        <Button type="submit">Logout</Button>
-      </form>
     </div>
   </header>
 </template>
