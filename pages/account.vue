@@ -31,9 +31,9 @@ const links = [
       Manage your account settings and set e-mail preferences.
     </p>
   </div>
-  <div class="container mx-auto my-10 px-10">
+  <div class="container mx-auto my-10 px-4">
     <div class="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-      <aside class="-mx-4 lg:w-1/5">
+      <aside class="-mx-4 lg:w-1/5 px-4">
         <nav class="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1">
           <ul>
             <li v-for="link in links" :key="link.href">
@@ -60,7 +60,7 @@ const links = [
           </ul>
         </nav>
       </aside>
-      <div class="flex-1 lg:max-w-2xl">
+      <div class="flex-1">
         <NuxtPage />
       </div>
     </div>
