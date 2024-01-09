@@ -44,3 +44,5 @@ pnpm run preview
 - [ ] Registered user show short link metrics.
 - [ ] Registered user short link metrics chart today, yesterday, week, month, year and overall.
 - [ ] Nuxt CSRF.
+- [ ] Dark mode support.
+- [ ] Settings page Tab UI in mobile view.
