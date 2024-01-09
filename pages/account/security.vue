@@ -9,8 +9,6 @@ useHead({
   title: "Security | Link Shortner",
 });
 
-const router = useRouter();
-
 const formSchema = toTypedSchema(
   z.object({
     oldPassword: z
@@ -24,7 +22,7 @@ const formSchema = toTypedSchema(
   })
 );
 
-const { handleSubmit } = useForm({
+const { handleSubmit, resetForm } = useForm({
   validationSchema: formSchema,
   initialValues: {
     oldPassword: "",
@@ -39,9 +37,10 @@ const { mutate, isPending } = useMutation(
       body: data,
     }),
   {
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (!data.ok) return;
       toast.success("Password updated");
-      router.go(0);
+      resetForm();
     },
     onError: (error) => {
       toast.error(error?.data?.message ?? "Something went wrong");
