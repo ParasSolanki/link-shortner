@@ -62,15 +62,17 @@ const onSubmit = handleSubmit(async (values) => {
 
     <form @submit="onSubmit">
       <fieldset :disabled="isPending">
-        <Card>
+        <Card class="overflow-hidden">
           <CardHeader>
             <CardTitle>Display Name</CardTitle>
-            <CardDescription>This is your display name.</CardDescription>
+            <CardDescription
+              >Please enter your full name, or a display name you are
+              comfortable with.</CardDescription
+            >
           </CardHeader>
           <CardContent class="w-96">
             <FormField v-slot="{ componentField }" name="displayName">
               <FormItem>
-                <FormLabel>Display Name</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
@@ -82,11 +84,13 @@ const onSubmit = handleSubmit(async (values) => {
               </FormItem>
             </FormField>
           </CardContent>
-          <CardFooter class="flex items-center justify-between border-t py-4">
+          <CardFooter
+            class="flex items-center justify-between border-t py-4 bg-primary-foreground"
+          >
             <p class="text-base text-muted-foreground">
               Please use 32 characters at maximum.
             </p>
-            <Button type="submit" :disabled="isPending">
+            <Button type="submit" size="sm" :disabled="isPending">
               <Loader2 v-if="isPending" class="mr-1 h-4 w-4 animate-spin" />
               Save
             </Button>
