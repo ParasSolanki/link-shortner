@@ -9,7 +9,9 @@ const user = useUser();
     class="border-b sticky top-0 z-40 bg-background/80 backdrop-blur-lg border-border"
   >
     <div class="container mx-auto px-4 flex items-center h-20 justify-between">
-      <NuxtLink class="text-2xl md:text-3xl font-black">Link Shortner</NuxtLink>
+      <NuxtLink to="/" class="text-2xl md:text-3xl font-black"
+        >Link Shortner</NuxtLink
+      >
 
       <UserMenu v-if="user" />
 
