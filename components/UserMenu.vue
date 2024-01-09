@@ -56,7 +56,7 @@ const { mutate } = useMutation(
         <DropdownMenuItem asChild>
           <NuxtLink to="/account" class="hover:cursor-pointer">
             <SettingsIcon class="mr-2 h-4 w-4" />
-            Account
+            Settings
           </NuxtLink>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

@@ -28,7 +28,7 @@ const links = [
   <div class="container mx-auto border-b border-b-border px-4 py-6">
     <h2 class="text-primary font-bold text-3xl">Account Settings</h2>
     <p class="text-base text-muted-foreground">
-      Manage your account settings and set e-mail preferences.
+      Manage your account settings and set other preferences.
     </p>
   </div>
   <div class="container mx-auto my-10 px-4">
