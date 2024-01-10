@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { FlexRender, getCoreRowModel, useVueTable } from "@tanstack/vue-table";
+import {
+  FlexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useVueTable,
+} from "@tanstack/vue-table";
+import { DataTablePagination } from "~/components/ui/data-table";
 import {
   Table,
   TableBody,
@@ -10,14 +18,20 @@ import {
 } from "~/components/ui/table";
 import { columns } from "./links-column";
 
+const { data } = await useFetch("/api/links");
+
 const table = useVueTable({
   columns,
-  data: [],
+  data: data.value?.links ?? [],
   getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getFilteredRowModel: getFilteredRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
 });
 </script>
 
 <template>
+  <h6 class="text-2xl font-semibold">Your Links</h6>
   <div class="mt-10 space-y-4">
     <div class="rounded-md border">
       <Table>
@@ -60,5 +74,6 @@ const table = useVueTable({
         </TableBody>
       </Table>
     </div>
+    <DataTablePagination :table="table" />
   </div>
 </template>
