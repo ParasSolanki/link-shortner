@@ -1,10 +1,4 @@
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-};
-</script>
-
-<script setup lang="ts">
+<script setup lang="ts" generic="TData, TValue">
 import type { Column } from "@tanstack/vue-table";
 import {
   ArrowDownIcon,
@@ -23,10 +17,14 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
-interface DataTableColumnHeaderProps<TData, TValue> {
+interface DataTableColumnHeaderProps {
   column: Column<TData, TValue>;
   title: string;
 }
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 defineProps<DataTableColumnHeaderProps>();
 </script>
