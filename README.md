@@ -39,7 +39,7 @@ pnpm run preview
 - [x] Update profile functionality.
 - [x] Change password functionality.
 - [x] Registered user show all of their short links.
-- [ ] Registered user allow short link delete.
+- [x] Registered user allow short link delete.
 - [ ] Registered user show short link metrics.
 - [ ] Registered user short link metrics chart today, yesterday, week, month, year and overall.
 - [ ] Nuxt CSRF.
