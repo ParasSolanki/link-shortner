@@ -8,7 +8,7 @@ export function useMutation(
   const isPending = ref(false);
   const isError = ref(false);
   const error = ref(undefined);
-  const data = ref(undefined);
+  const data = shallowRef(undefined);
 
   async function mutateAsync(variables: any) {
     error.value = undefined;
