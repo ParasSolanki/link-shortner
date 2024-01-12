@@ -137,7 +137,7 @@ function handleCopyLink(link: string) {
             </div>
           </div>
           <div class="flex space-x-2">
-            <span>Long Link:</span>
+            <span class="flex-shrink-0">Long Link:</span>
             <NuxtLink
               target="_blank"
               :to="data.link.href"
