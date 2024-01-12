@@ -1,6 +1,7 @@
 import { h } from "vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 import DataTableColumnHeader from "~/components/ui/data-table/DataTableColumnHeader.vue";
+import { format } from "date-fns";
 // import { NuxtLink } from "#build/components";
 
 export interface Link {
@@ -60,7 +61,7 @@ export const columns: ColumnDef<Link>[] = [
   },
   {
     id: "Date Created",
-    accessorFn: (row) => row.createAt,
+    accessorFn: (row) => format(row.createAt, "PPP"),
     header: ({ column }) =>
       h(DataTableColumnHeader, { column, title: "Date Created" }),
   },

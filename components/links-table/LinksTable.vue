@@ -6,6 +6,7 @@ import {
   useVueTable,
   type PaginationState,
 } from "@tanstack/vue-table";
+import { z } from "zod";
 import { DataTablePagination } from "~/components/ui/data-table";
 import {
   Table,
@@ -15,21 +16,20 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { columns } from "./links-column";
 import { valueUpdater } from "~/lib/utils";
-import { z } from "zod";
+import { columns } from "./links-column";
 
 const router = useRouter();
 const route = useRoute();
 
 const linksQuerySchema = z.object({
-  page: z.coerce.number().min(1).catch(0),
+  page: z.coerce.number().min(1).catch(1),
   perPage: z.coerce.number().min(1).catch(10),
 });
 
 const result = linksQuerySchema.safeParse(route.query);
 
-let pageIndex = 0;
+let pageIndex = 1;
 let pageSize = 10;
 
 if (result.success) {
@@ -37,16 +37,20 @@ if (result.success) {
   pageSize = result.data.perPage;
 }
 
-const pagination = ref<PaginationState>({ pageIndex, pageSize });
+const pagination = ref<PaginationState>({ pageIndex: pageIndex - 1, pageSize });
 
 const query = computed(() => ({
   page: pagination.value.pageIndex + 1,
   perPage: pagination.value.pageSize,
 }));
 
-const { data } = await useFetch("/api/links", {
+const { data, refresh } = await useFetch("/api/links", {
   query,
 });
+
+function refreshLinks() {
+  refresh();
+}
 
 watch(
   () => pagination.value,
@@ -77,6 +81,14 @@ const table = useVueTable({
   onPaginationChange: (updaterOrValue) =>
     valueUpdater(updaterOrValue, pagination),
   manualPagination: true,
+});
+
+onMounted(() => {
+  window.addEventListener("focus", refreshLinks);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("focus", refreshLinks);
 });
 </script>
 

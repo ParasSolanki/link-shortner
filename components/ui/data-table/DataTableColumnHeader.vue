@@ -39,7 +39,7 @@ defineProps<DataTableColumnHeaderProps>();
         <Button
           variant="ghost"
           size="sm"
-          class="-ml-3 h-8 data-[state=open]:bg-accent"
+          class="-ml-3 h-8 data-[state=open]:bg-accent whitespace-pre"
         >
           <span>{{ title }}</span>
           <ArrowDownIcon
