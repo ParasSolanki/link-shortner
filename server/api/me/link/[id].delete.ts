@@ -21,11 +21,11 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const slug = getRouterParam(event, "slug");
+  const id = getRouterParam(event, "id");
 
-  if (!slug) {
+  if (!id) {
     throw createError({
-      message: "Slug is required",
+      message: "Id is required",
       status: 400,
     });
   }
@@ -34,9 +34,9 @@ export default defineEventHandler(async (event) => {
 
   try {
     links = await db
-      .select({ id: linksTable.id, userId: linksTable.id })
+      .select({ id: linksTable.id, userId: linksTable.userId })
       .from(linksTable)
-      .where(and(eq(linksTable.userId, user.id), eq(linksTable.slug, slug)))
+      .where(eq(linksTable.id, id))
       .limit(1);
   } catch (e) {
     throw createError({
