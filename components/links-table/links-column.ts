@@ -15,7 +15,8 @@ const formatter = new Intl.NumberFormat("en-US", {});
 
 export const columns: ColumnDef<Link>[] = [
   {
-    accessorKey: "slug",
+    id: "Shortned Link",
+    accessorFn: (row) => row.slug,
     header: ({ column }) =>
       h(DataTableColumnHeader, { column, title: "Shortned Link" }),
     cell: ({ row }) =>
@@ -26,12 +27,14 @@ export const columns: ColumnDef<Link>[] = [
           target: "_blank",
           rel: "noreferrer noopener",
           class: "underline underline-offset-4 hover:opacity-90",
-          href: `http://localhost:3000/${row.getValue("slug")}`,
+          href: `http://localhost:3000/${row.getValue("Shortned Link")}`,
         },
-        `http://localhost:3000/${row.getValue("slug")}`
+        `http://localhost:3000/${row.getValue("Shortned Link")}`
       ),
   },
   {
+    id: "Original Link",
+    accessorFn: (row) => row.href,
     accessorKey: "href",
     header: ({ column }) =>
       h(DataTableColumnHeader, { column, title: "Original Link" }),
@@ -42,21 +45,22 @@ export const columns: ColumnDef<Link>[] = [
         {
           target: "_blank",
           rel: "noreferrer noopener",
-          href: `${row.getValue("href")}`,
+          href: `${row.getValue("Original Link")}`,
           class: "underline underline-offset-4 hover:opacity-90",
         },
-        row.getValue("href")
+        row.getValue("Original Link")
       ),
   },
   {
-    accessorKey: "visits",
-
+    id: "Visits",
+    accessorFn: (row) => row.visits,
     header: ({ column }) =>
       h(DataTableColumnHeader, { column, title: "Visits" }),
-    cell: ({ row }) => h("span", {}, formatter.format(row.getValue("visits"))),
+    cell: ({ row }) => h("span", {}, formatter.format(row.getValue("Visits"))),
   },
   {
-    accessorKey: "createAt",
+    id: "Date Created",
+    accessorFn: (row) => row.createAt,
     header: ({ column }) =>
       h(DataTableColumnHeader, { column, title: "Date Created" }),
   },

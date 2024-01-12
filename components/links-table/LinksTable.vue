@@ -2,10 +2,9 @@
 import {
   FlexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useVueTable,
+  type PaginationState,
 } from "@tanstack/vue-table";
 import { DataTablePagination } from "~/components/ui/data-table";
 import {
@@ -17,22 +16,76 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { columns } from "./links-column";
+import { valueUpdater } from "~/lib/utils";
+import { z } from "zod";
 
-const { data } = await useFetch("/api/links");
+const router = useRouter();
+const route = useRoute();
+
+const linksQuerySchema = z.object({
+  page: z.coerce.number().min(1).catch(0),
+  perPage: z.coerce.number().min(1).catch(10),
+});
+
+const result = linksQuerySchema.safeParse(route.query);
+
+let pageIndex = 0;
+let pageSize = 10;
+
+if (result.success) {
+  pageIndex = result.data.page;
+  pageSize = result.data.perPage;
+}
+
+const pagination = ref<PaginationState>({ pageIndex, pageSize });
+
+const query = computed(() => ({
+  page: pagination.value.pageIndex + 1,
+  perPage: pagination.value.pageSize,
+}));
+
+const { data } = await useFetch("/api/links", {
+  query,
+});
+
+watch(
+  () => pagination.value,
+  (newValue) => {
+    router.replace({
+      path: "/dashboard",
+      query: {
+        page: newValue.pageIndex + 1,
+        perPage: newValue.pageSize,
+      },
+    });
+  }
+);
 
 const table = useVueTable({
   columns,
-  data: data.value?.links ?? [],
+  get data() {
+    return data.value?.links ?? [];
+  },
+  state: {
+    get pagination() {
+      return pagination.value;
+    },
+  },
+  pageCount: data.value?.pagination.total ?? 0,
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
-  getFilteredRowModel: getFilteredRowModel(),
-  getPaginationRowModel: getPaginationRowModel(),
+  onPaginationChange: (updaterOrValue) =>
+    valueUpdater(updaterOrValue, pagination),
+  manualPagination: true,
 });
 </script>
 
 <template>
-  <h6 class="text-2xl font-semibold">Your Links</h6>
   <div class="mt-10 space-y-4">
+    <div class="flex justify-between">
+      <h6 class="text-2xl font-semibold">Your Links</h6>
+      <DataTableViewOptions :table="table" />
+    </div>
     <div class="rounded-md border">
       <Table>
         <TableHeader>
