@@ -8,6 +8,9 @@ dependencies:
   '@lucia-auth/adapter-drizzle':
     specifier: 1.0.0-beta.0
     version: 1.0.0-beta.0(lucia@3.0.0-beta.13)
+  '@tanstack/vue-table':
+    specifier: ^8.11.3
+    version: 8.11.3(vue@3.3.13)
   '@vee-validate/zod':
     specifier: ^4.12.3
     version: 4.12.3(vue@3.3.13)
@@ -20,6 +23,9 @@ dependencies:
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
+  date-fns:
+    specifier: ^3.2.0
+    version: 3.2.0
   drizzle-orm:
     specifier: ^0.29.2
     version: 0.29.2(@types/better-sqlite3@7.6.8)(@types/react@18.2.46)(better-sqlite3@9.2.2)(expo-sqlite@13.2.0)(react@18.2.0)
@@ -3629,6 +3635,21 @@ packages:
       tslib: 2.6.2
     dev: true
 
+  /@tanstack/table-core@8.11.3:
+    resolution: {integrity: sha512-nkcFIL696wTf1QMvhGR7dEg60OIRwEZm1OqFTYYDTRc4JOWspgrsJO3IennsOJ7ptumHWLDjV8e5BjPkZcSZAQ==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /@tanstack/vue-table@8.11.3(vue@3.3.13):
+    resolution: {integrity: sha512-GBshDw3z0HJCwwSdw1+zcNM0iilIXW7/wo20E+Jgn4s+1NwC3PhaaaeNoSrbW0lhGNwKMXi04z5iB48RcFHHAQ==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      vue: ^3.2.33
+    dependencies:
+      '@tanstack/table-core': 8.11.3
+      vue: 3.3.13(typescript@5.3.3)
+    dev: false
+
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
@@ -5131,6 +5152,10 @@ packages:
 
   /dag-map@1.0.2:
     resolution: {integrity: sha512-+LSAiGFwQ9dRnRdOeaj7g47ZFJcOUPukAP8J3A3fuZ1g9Y44BG+P1sgApjLXTQPOzC4+7S9Wr8kXsfpINM4jpw==}
+    dev: false
+
+  /date-fns@3.2.0:
+    resolution: {integrity: sha512-E4KWKavANzeuusPi0jUjpuI22SURAznGkx7eZV+4i6x2A+IZxAMcajgkvuDAU1bg40+xuhW1zRdVIIM/4khuIg==}
     dev: false
 
   /debug@2.6.9:

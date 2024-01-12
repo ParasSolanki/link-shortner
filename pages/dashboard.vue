@@ -53,5 +53,7 @@ const formatter = new Intl.NumberFormat("en-US", {
         </CardContent>
       </Card>
     </div>
+
+    <LinksTable />
   </div>
 </template>
