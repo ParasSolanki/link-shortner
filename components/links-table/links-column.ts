@@ -1,16 +1,13 @@
-import { h } from "vue";
 import type { ColumnDef } from "@tanstack/vue-table";
-import DataTableColumnHeader from "~/components/ui/data-table/DataTableColumnHeader.vue";
 import { format } from "date-fns";
+import { h } from "vue";
+import { z } from "zod";
+import DataTableColumnHeader from "~/components/ui/data-table/DataTableColumnHeader.vue";
+import LinksTableActions from "./LinksTableActions.vue";
+import type { linkSchema } from "./schema";
 // import { NuxtLink } from "#build/components";
 
-export interface Link {
-  id: string;
-  href: string;
-  slug: string;
-  visits: number;
-  createAt: string;
-}
+export type Link = z.infer<typeof linkSchema>;
 
 const formatter = new Intl.NumberFormat("en-US", {});
 
@@ -64,5 +61,10 @@ export const columns: ColumnDef<Link>[] = [
     accessorFn: (row) => format(row.createAt, "PPP"),
     header: ({ column }) =>
       h(DataTableColumnHeader, { column, title: "Date Created" }),
+  },
+  {
+    id: "Actions",
+    header: "Actions",
+    cell: ({ row, table }) => h(LinksTableActions, { table, row }),
   },
 ];
