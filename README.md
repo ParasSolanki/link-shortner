@@ -38,7 +38,7 @@ pnpm run preview
 - [x] Profile page.
 - [x] Update profile functionality.
 - [x] Change password functionality.
-- [ ] Registered user show all of their short links.
+- [x] Registered user show all of their short links.
 - [ ] Registered user allow short link update.
 - [ ] Registered user allow short link delete.
 - [ ] Registered user show short link metrics.
