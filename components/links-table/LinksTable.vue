@@ -45,6 +45,7 @@ const query = computed(() => ({
 }));
 
 const { data, refresh } = await useFetch("/api/links", {
+  key: "links",
   query,
 });
 
@@ -75,7 +76,9 @@ const table = useVueTable({
       return pagination.value;
     },
   },
-  pageCount: data.value?.pagination.total ?? 0,
+  get pageCount() {
+    return data.value?.pagination.total ?? 0;
+  },
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
   onPaginationChange: (updaterOrValue) =>

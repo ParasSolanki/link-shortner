@@ -21,6 +21,7 @@ const { mutate, isPending } = useMutation(
   {
     onSuccess() {
       toast.success("Link deleted");
+      refreshNuxtData(["links", "links-states"]);
     },
     onError() {
       toast.error("Something went wrong while deleting link");

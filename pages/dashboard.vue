@@ -10,7 +10,9 @@ useHead({
   title: "Dashboard | Link Shortner",
 });
 
-const { data } = await useFetch("/api/link/states");
+const { data } = await useFetch("/api/link/states", {
+  key: "links-states",
+});
 
 const formatter = new Intl.NumberFormat("en-US", {
   notation: "compact",
