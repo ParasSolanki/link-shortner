@@ -1,5 +1,11 @@
 import { sql } from "drizzle-orm";
-import { sqliteTable, text, integer, unique } from "drizzle-orm/sqlite-core";
+import {
+  sqliteTable,
+  text,
+  integer,
+  unique,
+  index,
+} from "drizzle-orm/sqlite-core";
 import { generateId } from "lucia";
 
 export const userTable = sqliteTable("user", {
@@ -53,3 +59,22 @@ export const linksTable = sqliteTable("links", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
+
+export const linkTimeseiesTable = sqliteTable(
+  "link_timeseries",
+  {
+    id: text("id")
+      .notNull()
+      .$defaultFn(() => generateId(50))
+      .primaryKey(),
+    linkId: text("link_id")
+      .references(() => linksTable.id)
+      .notNull(),
+    visits: integer("visits").default(0).notNull(),
+    visitDateTime: text("visit_datetime").notNull(),
+  },
+  (t) => ({
+    linkIdIdx: index("link_id_idx").on(t.linkId),
+    uniqueLinkIdAndVisitDateTime: unique().on(t.linkId, t.visitDateTime),
+  })
+);
