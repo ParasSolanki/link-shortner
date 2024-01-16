@@ -64,7 +64,8 @@ export const columns: ColumnDef<Link>[] = [
   },
   {
     id: "Actions",
-    header: "Actions",
+    header: ({ column }) =>
+      h("div", { class: "h-8 flex items-center text-base" }, "Actions"),
     cell: ({ row, table }) => h(LinksTableActions, { table, row }),
   },
 ];
