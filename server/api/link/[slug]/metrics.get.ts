@@ -17,23 +17,23 @@ const metricsQuerySchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
-  const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
+  // const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
 
-  if (!sessionId) {
-    throw createError({
-      statusCode: 401,
-      message: "Not Authorized",
-    });
-  }
+  // if (!sessionId) {
+  //   throw createError({
+  //     statusCode: 401,
+  //     message: "Not Authorized",
+  //   });
+  // }
 
-  const { session, user } = await lucia.validateSession(sessionId);
+  // const { session, user } = await lucia.validateSession(sessionId);
 
-  if (!session) {
-    throw createError({
-      statusCode: 401,
-      message: "Not Authorized",
-    });
-  }
+  // if (!session) {
+  //   throw createError({
+  //     statusCode: 401,
+  //     message: "Not Authorized",
+  //   });
+  // }
 
   const slug = getRouterParam(event, "slug");
 
@@ -52,7 +52,8 @@ export default defineEventHandler(async (event) => {
       visits: linksTable.visits,
     })
     .from(linksTable)
-    .where(and(eq(linksTable.slug, slug), eq(linksTable.userId, user.id)))
+    // .where(and(eq(linksTable.slug, slug), eq(linksTable.userId, user.id)))
+    .where(eq(linksTable.slug, slug))
     .limit(1);
 
   if (!link) {
@@ -107,15 +108,27 @@ export default defineEventHandler(async (event) => {
         )
     );
 
-    const timeseries = await tx
-      .with(timeseriesData)
-      .select()
-      .from(timeseriesData);
+    let timeseries;
+
+    if (interval === "all") {
+      timeseries = await tx
+        .with(timeseriesData)
+        .select({
+          visits: sql`sum("visits")`.mapWith(Number),
+          month: sql`strftime('%Y-%m', "visit_datetime")`
+            .mapWith(String)
+            .as("month"),
+        })
+        .from(timeseriesData)
+        .groupBy(sql`strftime('%Y-%m', "visit_datetime")`);
+    } else {
+      timeseries = await tx.with(timeseriesData).select().from(timeseriesData);
+    }
 
     const total = await tx
       .with(timeseriesData)
       .select({
-        totalVisits: sql<number>`sum(${linkTimeseiesTable.visits}) as integer`,
+        totalVisits: sql`sum(${linkTimeseiesTable.visits})`.mapWith(Number),
       })
       .from(timeseriesData);
 
