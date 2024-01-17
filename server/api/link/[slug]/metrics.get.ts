@@ -58,7 +58,7 @@ export default defineEventHandler(async (event) => {
   if (!link) {
     throw createError({
       message: "Link does not exists",
-      status: 400,
+      status: 404,
     });
   }
 
@@ -67,7 +67,10 @@ export default defineEventHandler(async (event) => {
   const result = metricsQuerySchema.safeParse(query);
 
   if (!result.success) {
-    return;
+    throw createError({
+      message: "Wrong details passed",
+      status: 400,
+    });
   }
 
   const { interval } = result.data;

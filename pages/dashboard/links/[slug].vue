@@ -14,11 +14,44 @@ definePageMeta({
 useHead({
   title: "Links | Link Shortner",
 });
+
+const route = useRoute();
+const slug = route.params.slug;
+
+const filterOptions = [
+  {
+    text: "Last 1 Day",
+    value: "1d",
+  },
+  {
+    text: "Last 7 Days",
+    value: "7d",
+  },
+  {
+    text: "Last 30 Days",
+    value: "30d",
+  },
+  {
+    text: "Last 3 Months",
+    value: "90d",
+  },
+  {
+    text: "All Time",
+    value: "all",
+  },
+];
+
+const selectedFilter = ref("30d");
+
+// TODO: handle link not found
+const { data } = await useFetch(`/api/link/${slug}/metrics`, {
+  query: computed(() => ({ interval: selectedFilter.value })),
+});
 </script>
 
 <template>
   <div class="bg-neutral-50/50 px-4 py-6 border-b border-border">
-    <ol class="flex items-center max-w-2xl mx-auto">
+    <ol class="flex items-center max-w-4xl mx-auto px-4">
       <li class="flex items-center">
         <NuxtLink
           to="/"
@@ -46,5 +79,23 @@ useHead({
     </ol>
   </div>
 
-  <div class="py-8"></div>
+  <div class="py-8 max-w-4xl mx-auto px-4">
+    <div class="flex justify-between items-center">
+      <h4 class="font-bold text-xl">{{ data?.link.slug }}</h4>
+      <Select v-model="selectedFilter">
+        <SelectTrigger class="h-8 w-40">
+          <SelectValue placeholder="Select filter" />
+        </SelectTrigger>
+        <SelectContent side="top">
+          <SelectItem
+            v-for="option in filterOptions"
+            :key="option.value"
+            :value="option.value"
+          >
+            {{ option.text }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  </div>
 </template>
