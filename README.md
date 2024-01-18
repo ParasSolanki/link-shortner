@@ -40,8 +40,8 @@ pnpm run preview
 - [x] Change password functionality.
 - [x] Registered user show all of their short links.
 - [x] Registered user allow short link delete.
-- [ ] Registered user show short link metrics.
-- [ ] Registered user short link metrics chart today, yesterday, week, month, year and overall.
+- [x] Registered user show short link metrics.
+- [x] Registered user short link metrics chart last day, last 7 day, last 30 day, last 90 day and all time.
 - [ ] Nuxt CSRF.
 - [ ] Dark mode support.
 - [ ] Settings page Tab UI in mobile view.
