@@ -17,23 +17,23 @@ const metricsQuerySchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
-  // const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
+  const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
 
-  // if (!sessionId) {
-  //   throw createError({
-  //     statusCode: 401,
-  //     message: "Not Authorized",
-  //   });
-  // }
+  if (!sessionId) {
+    throw createError({
+      statusCode: 401,
+      message: "Not Authorized",
+    });
+  }
 
-  // const { session, user } = await lucia.validateSession(sessionId);
+  const { session, user } = await lucia.validateSession(sessionId);
 
-  // if (!session) {
-  //   throw createError({
-  //     statusCode: 401,
-  //     message: "Not Authorized",
-  //   });
-  // }
+  if (!session) {
+    throw createError({
+      statusCode: 401,
+      message: "Not Authorized",
+    });
+  }
 
   const slug = getRouterParam(event, "slug");
 
@@ -52,14 +52,14 @@ export default defineEventHandler(async (event) => {
       visits: linksTable.visits,
     })
     .from(linksTable)
-    // .where(and(eq(linksTable.slug, slug), eq(linksTable.userId, user.id)))
-    .where(eq(linksTable.slug, slug))
+    .where(and(eq(linksTable.slug, slug), eq(linksTable.userId, user.id)))
     .limit(1);
 
   if (!link) {
     throw createError({
       message: "Link does not exists",
-      status: 404,
+      status: 400,
+      statusMessage: "Link does not exists",
     });
   }
 
@@ -78,13 +78,13 @@ export default defineEventHandler(async (event) => {
   const now = new Date();
   const todayStartOfDay = formatISO(startOfDay(now));
 
-  let intervalDate: string = formatISO(startOfDay(subDays(now, 30))); // default 30d
+  let intervalDate: string = formatISO(startOfDay(subDays(now, 29))); // default 30d
 
-  if (interval === "1d") intervalDate = formatISO(startOfDay(subDays(now, 1)));
+  if (interval === "1d") intervalDate = formatISO(startOfDay(now));
   else if (interval === "7d") {
-    intervalDate = formatISO(startOfDay(subDays(now, 7)));
+    intervalDate = formatISO(startOfDay(subDays(now, 6)));
   } else if (interval === "90d") {
-    intervalDate = formatISO(startOfDay(subDays(now, 90)));
+    intervalDate = formatISO(startOfDay(subDays(now, 89)));
   }
 
   const data = await db.transaction(async (tx) => {
