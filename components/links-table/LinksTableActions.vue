@@ -1,6 +1,11 @@
 <script setup lang="ts" generic="TData">
 import type { Row, Table } from "@tanstack/vue-table";
-import { MoreHorizontalIcon, Trash2Icon, Loader2 } from "lucide-vue-next";
+import {
+  MoreHorizontalIcon,
+  Trash2Icon,
+  Loader2,
+  BarChartIcon,
+} from "lucide-vue-next";
 import { linkSchema } from "./schema";
 import { toast } from "vue-sonner";
 
@@ -43,6 +48,14 @@ const { mutate, isPending } = useMutation(
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" class="w-[160px]">
+        <DropdownMenuItem as-child>
+          <NuxtLink
+            :to="`/dashboard/links/${link.slug}`"
+            class="inline-flex items-center w-full"
+          >
+            <BarChartIcon class="mr-2 h-4 w-4" /> Analytics</NuxtLink
+          >
+        </DropdownMenuItem>
         <DropdownMenuItem
           class="focus:bg-red-500 focus:text-primary-foreground"
         >
