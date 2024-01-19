@@ -13,13 +13,16 @@ const user = useUser();
         >Link Shortner</NuxtLink
       >
 
-      <UserMenu v-if="user" />
+      <div class="flex items-center space-x-3">
+        <ThemeToggle />
+        <UserMenu v-if="user" />
 
-      <div v-else class="flex space-x-2 items-center">
-        <NuxtLink :class="buttonVariants({ variant: 'outline' })" to="/signin"
-          >Signin</NuxtLink
-        >
-        <NuxtLink :class="buttonVariants()" to="/signup">SignUp</NuxtLink>
+        <div v-else class="flex space-x-2 items-center">
+          <NuxtLink :class="buttonVariants({ variant: 'outline' })" to="/signin"
+            >Signin</NuxtLink
+          >
+          <NuxtLink :class="buttonVariants()" to="/signup">SignUp</NuxtLink>
+        </div>
       </div>
     </div>
   </header>

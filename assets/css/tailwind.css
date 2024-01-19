@@ -72,6 +72,9 @@
   * {
     @apply border-border;
   }
+  html.dark {
+    color-scheme: dark;
+  }
   body {
     @apply bg-background text-foreground font-sans overflow-x-hidden;
   }
@@ -88,8 +91,8 @@
 }
 
 .no-transitions * {
-  transition: none;
-  animation: none;
+  transition: none !important;
+  animation: none !important;
 }
 
 .bg-grid {

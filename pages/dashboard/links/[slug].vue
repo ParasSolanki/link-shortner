@@ -88,7 +88,9 @@ const formatter = new Intl.NumberFormat("en-US");
 </script>
 
 <template>
-  <div class="bg-neutral-50/50 px-4 py-6 border-b border-border">
+  <div
+    class="bg-neutral-50/50 dark:bg-neutral-900 px-4 py-6 border-b border-border"
+  >
     <ol class="flex items-center max-w-4xl mx-auto px-4">
       <li class="flex items-center">
         <NuxtLink

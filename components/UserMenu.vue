@@ -2,7 +2,6 @@
 import {
   UserIcon,
   LogOut,
-  LockIcon,
   SettingsIcon,
   LayoutDashboardIcon,
   HomeIcon,

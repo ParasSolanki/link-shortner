@@ -10,6 +10,8 @@ import { format, parseISO, parse } from "date-fns";
 
 const props = defineProps<{ data?: Array<unknown> }>();
 
+const { colorMode } = useColorMode();
+
 const data = computed(() => {
   if (!props.data) return [];
 
@@ -39,6 +41,12 @@ const triggers = {
       <p class="text-xs text-center">${d.datetime}</p>
     </div>`,
 };
+
+const color = computed(() => {
+  const c = colorMode.value.preference === "dark" ? "#ffffff" : "#000000";
+  console.log(c);
+  return c;
+});
 </script>
 
 <template>
@@ -48,7 +56,7 @@ const triggers = {
       :y="(d) => d.visits"
       :rounded-corners="4"
       :bar-padding="0.15"
-      color="#000000"
+      :color="color"
     />
     <VisTooltip :triggers="triggers" />
     <VisAxis

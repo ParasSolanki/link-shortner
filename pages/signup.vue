@@ -54,7 +54,7 @@ const onSubmit = handleSubmit(async (values) => {
 <template>
   <main class="h-screen flex">
     <div
-      class="hidden h-screen w-6/12 bg-gradient-to-r from-primary via-zinc-900 to-zinc-950 lg:block"
+      class="hidden h-screen w-6/12 bg-gradient-to-r from-zinc-700 via-zinc-800 to-zinc-900 dark:from-neutral-700 dark:via-neutral-800 dark:to-neutral-900 lg:block"
     >
       <div class="mx-auto py-20 max-w-xl px-2">
         <h1 class="px-2 text-5xl font-bold text-white">Create An Account</h1>
