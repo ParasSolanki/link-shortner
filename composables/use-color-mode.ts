@@ -10,10 +10,23 @@ export type ColorMode = {
 const PERFERS_COLOR_SCHEME_DARK = "(prefers-color-scheme: dark)";
 
 export function useColorMode() {
-  const colorMode = useCookie<ColorMode>("link-shortner-color-mode", {
-    default: () => ({ mode: "system", preference: "light", unknown: true }),
+  const colorMode = useState<ColorMode>("colorMode", () => ({
+    mode: "system",
+    preference: "light",
+    unknown: true,
+  }));
+  const colorModeCookie = useCookie("link-shortner-color-mode", {
+    default: () => ({}),
+    watch: true,
   });
   const matchMediaRef = ref<MediaQueryList>();
+
+  // update and sync cookie with the colorMode state
+  Object.assign(colorMode.value, colorModeCookie.value);
+
+  watch(colorMode, (value) => {
+    colorModeCookie.value = { ...value };
+  });
 
   function handleChangeMode(mode: Mode, preference: ColorModePreference) {
     document.documentElement.classList.remove("light", "dark");
