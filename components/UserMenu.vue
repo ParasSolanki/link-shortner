@@ -78,12 +78,6 @@ const { mutate } = useMutation(
             Settings
           </NuxtLink>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <NuxtLink to="/account/security" class="hover:cursor-pointer">
-            <LockIcon class="mr-2 h-4 w-4" />
-            Change Password
-          </NuxtLink>
-        </DropdownMenuItem>
       </DropdownMenuGroup>
       <DropdownMenuSeparator />
       <DropdownMenuItem
