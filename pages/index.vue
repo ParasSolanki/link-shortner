@@ -17,6 +17,8 @@ useHead({
 
 const BASE_URL = "http://localhost:3000";
 
+const user = useUser();
+
 const formSchema = toTypedSchema(
   z.object({
     href: z.string().url(),
@@ -73,7 +75,9 @@ function handleCopyLink(link: string) {
       </p>
 
       <div class="flex items-center space-x-4 sm:justify-center">
-        <NuxtLink to="/signin" :class="buttonVariants({ size: 'lg' })"
+        <NuxtLink
+          :to="user ? '/dashboard' : '/signin'"
+          :class="buttonVariants({ size: 'lg' })"
           >Get Started</NuxtLink
         >
         <NuxtLink
