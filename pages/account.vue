@@ -32,9 +32,32 @@ const links = [
     </p>
   </div>
   <div class="container mx-auto my-10 px-4">
-    <div class="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-      <aside class="-mx-4 lg:w-1/5 px-4">
-        <nav class="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1">
+    <Tabs :default-value="route.path" class="md:hidden w-full">
+      <TabsList class="w-full">
+        <TabsTrigger
+          v-for="link in links"
+          as-child
+          :key="link.href"
+          :value="link.href"
+          ><NuxtLink :to="link.href" class="flex-grow">{{
+            link.name
+          }}</NuxtLink></TabsTrigger
+        >
+      </TabsList>
+      <TabsContent
+        v-for="link in links"
+        :key="link.href"
+        :value="link.href"
+        class="mt-10"
+      >
+        <NuxtPage />
+      </TabsContent>
+    </Tabs>
+    <div
+      class="hidden md:flex flex-col space-y-8 md:flex-row md:space-x-4 lg:space-x-12 md:space-y-0"
+    >
+      <aside class="-mx-4 md:w-1/5 px-4">
+        <nav class="flex space-x-2 md:flex-col md:space-x-0 md:space-y-1">
           <ul>
             <li v-for="link in links" :key="link.href">
               <NuxtLink
@@ -51,7 +74,7 @@ const links = [
               >
                 <component
                   :is="link.icon"
-                  class="mr-2 w-5 h-5"
+                  class="mr-2 w-5 h-5 flex-shrink-0"
                   aria-hidden="true"
                 />
                 {{ link.name }}
