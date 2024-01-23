@@ -26,9 +26,10 @@ onBeforeUnmount(() => {
   window.removeEventListener("focus", refreshStates);
 });
 
-const formatter = new Intl.NumberFormat("en-US", {
+const compactFormatter = new Intl.NumberFormat("en-US", {
   notation: "compact",
 });
+const formatter = new Intl.NumberFormat("en-US");
 </script>
 
 <template>
@@ -46,7 +47,7 @@ const formatter = new Intl.NumberFormat("en-US", {
         <CardContent>
           <span class="text-2xl text-muted-foreground">{{
             data?.states.totalLinks
-              ? formatter.format(data.states.totalLinks)
+              ? compactFormatter.format(data.states.totalLinks)
               : 0
           }}</span>
         </CardContent>
@@ -59,11 +60,27 @@ const formatter = new Intl.NumberFormat("en-US", {
           <MousePointerClickIcon class="w-6 h-6" />
         </CardHeader>
         <CardContent>
-          <span class="text-2xl text-muted-foreground">{{
-            data?.states.totalVisits
-              ? formatter.format(data.states.totalVisits)
-              : 0
-          }}</span>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger as-child>
+                <span class="text-2xl text-muted-foreground">{{
+                  data?.states.totalVisits
+                    ? compactFormatter.format(data.states.totalVisits)
+                    : 0
+                }}</span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>
+                  <strong>{{
+                    data?.states.totalVisits
+                      ? formatter.format(data.states.totalVisits)
+                      : 0
+                  }}</strong>
+                  Total Visits
+                </span>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </CardContent>
       </Card>
     </div>
