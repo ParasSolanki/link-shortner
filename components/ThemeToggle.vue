@@ -25,7 +25,7 @@ const themes = [
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button size="icon" variant="outline">
+      <Button size="icon" variant="ghost">
         <SunIcon v-if="colorMode.mode === 'light'" class="h-4 w-4" />
         <MoonIcon v-else-if="colorMode.mode === 'dark'" class="h-4 w-4" />
         <MonitorIcon v-else class="h-4 w-4" />
